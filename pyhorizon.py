@@ -20,7 +20,7 @@ plt.savefig('horizon_measured.png')
 y_interp = interp1d(azimuth,elevation)
 
 #interpolate
-new_az = np.linspace(0,360,72,endpoint=False).tolist()
+new_az = np.linspace(0,360,180,endpoint=False).tolist()
 new_elev = y_interp(new_az).tolist()
 
 # plot interpolated horizon
