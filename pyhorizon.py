@@ -7,6 +7,18 @@ import matplotlib.pyplot as plt
 
 # read measured azimuth and elevation from file
 df = pd.read_csv('horizon_measured.csv', delimiter=',')
+df = df.rename(columns={"El ": "El"})
+if(df.at[0,'Az']!=0):
+    df_first_row = df.head(1).copy()
+    df_first_row.loc[0,'Az']=0
+    df = pd.concat([df_first_row, df], ignore_index=True, sort=False)
+
+if(df.at[df.index.size-1,'Az']!=360):
+    df_last_row = df.tail(1).copy()
+    df_last_row.index = [0];
+    df_last_row.loc[0,'Az']=360
+    df = pd.concat([df, df_last_row], ignore_index=True, sort=False)
+
 azimuth = df.Az.tolist()
 elevation = df.El.tolist()
 
