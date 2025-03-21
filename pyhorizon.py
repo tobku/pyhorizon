@@ -7,7 +7,12 @@ import matplotlib.pyplot as plt
 
 # read measured azimuth and elevation from file
 df = pd.read_csv('horizon_measured.csv', delimiter=',')
-df = df.rename(columns={"El ": "El"})
+
+# Fix column names with potential trailing spaces
+if 'El' not in df.columns and 'El ' in df.columns:
+    df = df.rename(columns={'El ': 'El'})
+
+# Add boundary points to ensure interpolation works for the full 0-360 range
 if(df.at[0,'Az']!=0):
     df_first_row = df.head(1).copy()
     df_first_row.loc[0,'Az']=0
